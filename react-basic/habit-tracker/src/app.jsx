@@ -13,18 +13,27 @@ class App extends Component {
   };
   //증가
   handleIncrement = (habit) => {
-    const habits = [...this.state.habits];
-    const index = habits.indexOf(habit);
-    habits[index].count++;
-    this.setState({ habit });
+    const habits = this.state.habits.map((item) => {
+      // 선택된 id와 실제 id가 같은경우 즉 선택한 객체에만 count애 +1을 적용하고 나머지는 그대로 사용하던 값으로 내버려둔다.
+      if (item.id === habit.id) {
+        return { ...habit, count: habit.count + 1 };
+      } else {
+        return item;
+      }
+    });
+    this.setState({ habits });
   };
   //감소
   handleDecrement = (habit) => {
-    const habits = [...this.state.habits];
-    const index = habits.indexOf(habit);
-    const count = habits[index].count - 1;
-    habits[index].count = count < 0 ? 0 : count;
-    this.setState({ habit });
+    const habits = this.state.habits.map((item) => {
+      if (item.id === habit.id) {
+        const count = habit.count - 1;
+        return { ...habit, count: count < 0 ? 0 : count };
+      } else {
+        return item;
+      }
+    });
+    this.setState({ habits });
   };
   //삭제
   handleDelete = (habit) => {
@@ -42,7 +51,9 @@ class App extends Component {
   //리셋
   handleReset = () => {
     const habits = this.state.habits.map((habit) => {
-      habit.count = 0;
+      if (habit.count !== 0) {
+        return { ...habit, count: 0 };
+      }
       return habit;
     });
     this.setState({ habits });
