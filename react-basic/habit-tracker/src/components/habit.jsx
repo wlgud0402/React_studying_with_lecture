@@ -4,13 +4,15 @@ class Habit extends Component {
   handleIncrement = () => {
     this.props.onIncrement(this.props.habit);
   };
+
   handleDecrement = () => {
     this.props.onDecrement(this.props.habit);
   };
+
   handleDelete = () => {
     this.props.onDelete(this.props.habit);
   };
-  //render함수 실행되면
+
   render() {
     const { name, count } = this.props.habit;
     return (
